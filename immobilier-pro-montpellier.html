@@ -365,7 +365,7 @@
       </div>
     </section>
 
-    <!-- FORMULAIRE DE RENDEZ-VOUS CONFIDENTIEL B2B -->
+    <!-- FORMULAIRE DE RENDEZ-VOUS CONFIDENTIEL B2B (Envoi direct AJAX sans mailto) -->
     <section id="contact-pro" class="py-16 bg-iadLightBlue border-t border-iadSoftBlue">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-iadColdBeige">
@@ -426,21 +426,7 @@
               </a>
             </div>
 
-            <div id="pro-feedback" class="hidden rounded-2xl bg-iadBeige border border-iadColdBeige p-5 space-y-3 text-xs sm:text-sm text-black">
-              <p class="font-bold text-iadEditorial">Votre message confidentiel est prêt dans votre messagerie (destinataire : l.malet@iadfrance.fr).</p>
-              <div class="flex flex-wrap gap-3">
-                <button type="button" id="pro-copy-btn"
-                        class="inline-flex items-center gap-1.5 bg-iadCharcoal text-white font-semibold text-xs px-4 py-2.5 rounded-full">
-                  <span class="material-symbols-outlined text-base">content_copy</span>
-                  <span id="pro-copy-label">Copier le message</span>
-                </button>
-                <a id="pro-retry-link" href="#"
-                   class="inline-flex items-center gap-1.5 bg-iadBlue text-black font-bold italic text-xs px-4 py-2.5 rounded-full">
-                  <span class="material-symbols-outlined text-base">mail</span>
-                  <span>Réouvrir ma messagerie</span>
-                </a>
-              </div>
-            </div>
+            <div id="pro-feedback" class="hidden"></div>
           </form>
         </div>
       </div>
@@ -469,7 +455,9 @@
     </div>
   </footer>
 
+  <!-- Scripts : Menu Mobile + Envoi AJAX direct sans mailto -->
   <script>
+    // Menu mobile
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIcon = document.getElementById('mobile-menu-icon');
@@ -490,48 +478,66 @@
       });
     }
 
+    // Envoi direct du formulaire B2B sans mailto (AJAX FormSubmit)
     const proForm = document.getElementById('pro-contact-form');
     const proFeedback = document.getElementById('pro-feedback');
-    const proRetry = document.getElementById('pro-retry-link');
-    const proCopyBtn = document.getElementById('pro-copy-btn');
-    const proCopyLabel = document.getElementById('pro-copy-label');
-    let proText = '';
 
     if (proForm) {
-      proForm.addEventListener('submit', (e) => {
+      proForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        const submitBtn = proForm.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">progress_activity</span><span>Envoi confidentiel...</span>';
+
         const type = document.getElementById('pro-type').value;
         const secteur = document.getElementById('pro-secteur').value.trim();
         const nom = document.getElementById('pro-nom').value.trim();
         const tel = document.getElementById('pro-tel').value.trim();
         const message = document.getElementById('pro-message').value.trim();
 
-        const subject = `[Confidentiel B2B] ${type} (${secteur}) — ${nom}`;
-        const body =
-          `Bonjour Laurent,\n\n` +
-          `Demande de rendez-vous confidentiel (Immobilier Pro) :\n` +
-          `- Projet : ${type}\n` +
-          `- Secteur : ${secteur}\n` +
-          `- Nom : ${nom}\n` +
-          `- Téléphone : ${tel}\n\n` +
-          `Disponibilités / précisions :\n${message}\n`;
-
-        proText = `Destinataire : l.malet@iadfrance.fr\nObjet : ${subject}\n\n${body}`;
-        const url = `mailto:l.malet@iadfrance.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        proRetry.href = url;
-        proFeedback.classList.remove('hidden');
-        window.location.href = url;
-      });
-    }
-
-    if (proCopyBtn) {
-      proCopyBtn.addEventListener('click', async () => {
         try {
-          await navigator.clipboard.writeText(proText);
-          proCopyLabel.textContent = 'Message copié !';
-          setTimeout(() => { proCopyLabel.textContent = 'Copier le message'; }, 3000);
-        } catch (err) {
-          proCopyLabel.textContent = 'Copie manuelle requise';
+          const response = await fetch('https://formsubmit.co/ajax/l.malet@iadfrance.fr', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              _subject: `[Confidentiel B2B] ${type} (${secteur}) — ${nom}`,
+              _template: 'table',
+              _captcha: 'false',
+              Projet: type,
+              Secteur: secteur,
+              Nom: nom,
+              Telephone: tel,
+              Disponibilites: message
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('Erreur réseau lors de l’envoi');
+          }
+
+          proForm.reset();
+          proFeedback.className = 'rounded-2xl bg-iadLightBlue border border-iadBlue p-5 space-y-2 text-xs sm:text-sm text-black';
+          proFeedback.innerHTML = `
+            <p class="font-bold text-iadEditorial flex items-center gap-2">
+              <span class="material-symbols-outlined text-iadBlue">check_circle</span>
+              <span>Votre demande confidentielle a bien été envoyée à Laurent Malet.</span>
+            </p>
+            <p class="text-iadCharcoal">Vous serez recontacté sur le créneau indiqué en toute discrétion.</p>
+          `;
+        } catch (error) {
+          proFeedback.className = 'rounded-2xl bg-iadBeige border border-iadCoral p-5 space-y-2 text-xs sm:text-sm text-black';
+          proFeedback.innerHTML = `
+            <p class="font-bold text-black">L’envoi automatique a été bloqué par votre navigateur.</p>
+            <p class="text-iadCharcoal">Appelez directement Laurent Malet au <a href="tel:+33665131037" class="font-bold text-iadEditorial underline">06 65 13 10 37</a>.</p>
+          `;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
         }
       });
     }
