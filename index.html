@@ -7,6 +7,20 @@
   <meta name="description" content="Collectif de 5 conseillers immobiliers indépendants iad à Montpellier et sa première couronne (787 rue Marius Petipa). Immobilier résidentiel qualifié 360°, cession confidentielle de commerces et parcours d'intégration pour futurs conseillers iad.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/">
+  <link rel="icon" href="favicon.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Open Graph / Partage -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="iad Gotham Team">
+  <meta property="og:title" content="iad Gotham Team — 5 conseillers immobiliers indépendants à Montpellier">
+  <meta property="og:description" content="Résidentiel qualifié 360°, cession confidentielle de commerces et accompagnement des futurs conseillers iad à Montpellier et sa première couronne.">
+  <meta property="og:url" content="https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/">
+  <meta property="og:image" content="https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- Google Fonts : Montserrat (Charte iad 2025) & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,10 +60,20 @@
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        "@id": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/#website",
+        "url": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/",
+        "name": "iad Gotham Team Montpellier",
+        "inLanguage": "fr-FR",
+        "publisher": { "@id": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/#organization" }
+      },
+      {
         "@type": "Organization",
         "@id": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/#organization",
         "name": "iad Gotham Team",
         "url": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/",
+        "telephone": "+33 6 65 13 10 37",
+        "image": "https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/og-image.png",
         "description": "Collectif de 5 conseillers immobiliers indépendants iad à Montpellier : immobilier résidentiel, cession confidentielle de commerces et fonds de commerce, villas de caractère, clientèle internationale et accompagnement de nouveaux conseillers.",
         "address": {
           "@type": "PostalAddress",
@@ -120,7 +144,7 @@
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-iadColdBeige">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
       <a href="index.html" class="flex items-center shrink-0" aria-label="Accueil iad Gotham Team Montpellier">
-        <span class="text-3xl sm:text-4xl font-black tracking-tighter text-iadBlue lowercase leading-none">iad</span>
+        <img src="assets/logos/iad-logo-bleu.png" alt="iad immobilier" width="51" height="36" class="h-9 w-auto">
         <span class="h-7 w-[2px] bg-iadBlue mx-3 inline-block"></span>
         <span class="text-lg sm:text-xl font-extrabold tracking-tight text-black leading-none">Gotham&nbsp;Team</span>
       </a>
@@ -135,7 +159,7 @@
 
       <div class="flex items-center gap-3">
         <a href="#contact"
-           class="hidden sm:inline-flex items-center gap-2 bg-iadBlue hover:bg-iadSoftBlue text-black font-bold italic text-xs sm:text-sm px-5 py-2.5 rounded-full transition">
+           class="hidden sm:inline-flex md:hidden lg:inline-flex items-center gap-2 bg-iadBlue hover:bg-iadSoftBlue text-black font-bold italic text-xs sm:text-sm px-5 py-2.5 rounded-full transition">
           <span class="material-symbols-outlined text-lg">mail</span>
           <span>Nous contacter</span>
         </a>
@@ -558,7 +582,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-center">
-          <span class="text-2xl font-black tracking-tighter text-iadBlue lowercase leading-none">iad</span>
+          <img src="assets/logos/iad-logo-bleu.png" alt="iad immobilier" width="40" height="28" class="h-7 w-auto">
           <span class="h-5 w-[2px] bg-iadBlue mx-2.5 inline-block"></span>
           <span class="text-base font-extrabold text-black leading-none">Gotham&nbsp;Team</span>
         </div>
@@ -567,6 +591,7 @@
           <a href="immobilier-pro-montpellier.html" class="hover:text-black">Immobilier Pro &amp; Commerces</a>
           <a href="rejoindre-iad-montpellier.html" class="hover:text-black">Rejoindre l’équipe</a>
           <a href="#contact" class="hover:text-black">Contact</a>
+          <a href="mentions-legales.html" class="hover:text-black">Mentions légales</a>
         </div>
       </div>
       <p class="leading-relaxed">
