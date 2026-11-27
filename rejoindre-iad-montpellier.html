@@ -698,7 +698,7 @@
                 Sans changer de métier, rejoignez notre réseau local d'apporteurs d'affaires <strong>Propertips by iad</strong> à Montpellier. Partagez une mise en relation immobilière autour de vous et découvrez l'ambiance de la <strong>iad Gotham Team</strong> lors de nos afterworks.
               </p>
             </div>
-            <a href="mailto:l.malet@iadfrance.fr?subject=D%C3%A9couvrir%20Propertips%20avec%20la%20iad%20Gotham%20Team%20Montpellier" class="inline-flex items-center justify-center gap-2 w-full bg-iad-coral text-black font-bold italic text-xs py-3.5 px-4 rounded-full hover:bg-iad-blue transition-colors">
+            <a href="#formulaire-recrutement" data-sujet="Découvrir Propertips (apporteur d'affaires)" class="inline-flex items-center justify-center gap-2 w-full bg-iad-coral text-black font-bold italic text-xs py-3.5 px-4 rounded-full hover:bg-iad-blue transition-colors">
               <span>Rejoindre le réseau Propertips</span>
               <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
             </a>
@@ -775,9 +775,9 @@
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-6 mb-10">
-          <a href="mailto:sarah.bendia@iadfrance.fr,l.malet@iadfrance.fr?subject=Projet%20rejoindre%20iad%20Montpellier%20-%20iad%20Gotham%20Team&amp;body=Bonjour%20la%20iad%20Gotham%20Team%2C%0A%0AJe%20souhaite%20%C3%A9changer%20au%20sujet%20d'un%20projet%20pour%20rejoindre%20iad%20immobilier%20%C3%A0%20Montpellier.%0A%0AMon%20nom%20%3A%20%0AMon%20t%C3%A9l%C3%A9phone%20%3A%20%0AMon%20secteur%20%3A%20" class="inline-flex items-center gap-2 bg-iad-coral text-black font-bold italic px-8 py-4 rounded-full rotate-[5deg] hover:rotate-0 transition-transform shadow-lg">
+          <a href="#formulaire-recrutement" class="inline-flex items-center gap-2 bg-iad-coral text-black font-bold italic px-8 py-4 rounded-full rotate-[5deg] hover:rotate-0 transition-transform shadow-lg">
             <span class="material-symbols-outlined text-lg" aria-hidden="true">mail</span>
-            <span>Envoyer un e-mail à l'équipe</span>
+            <span>Écrire à l'équipe</span>
           </a>
 
           <a href="tel:+33782759016" class="inline-flex items-center gap-2 bg-iad-blue text-black font-bold italic px-8 py-4 rounded-full hover:bg-iad-200 transition-colors shadow-lg">
@@ -789,6 +789,77 @@
             <span class="material-symbols-outlined text-lg" aria-hidden="true">call</span>
             <span>Appeler Laurent : 06 65 13 10 37</span>
           </a>
+        </div>
+
+        <!-- Formulaire d'envoi direct (sans logiciel de messagerie) -->
+        <div id="formulaire-recrutement" class="scroll-mt-24 max-w-3xl mx-auto mb-10 bg-white text-black text-left rounded-3xl p-6 sm:p-10 shadow-lg">
+          <h3 class="text-xl sm:text-2xl font-black text-black">Écrire à l'équipe</h3>
+          <p class="mt-1 text-sm text-iad-charcoal">Sarah et Laurent vous répondent personnellement, en général sous 48&nbsp;h.</p>
+
+          <form id="recrutement-form" class="mt-6 space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="rec-sujet" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Votre projet *</label>
+                <select id="rec-sujet" required class="w-full rounded-xl border border-iad-coldbeige bg-white px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30">
+                  <option value="Rejoindre iad à Montpellier (recrutement / reconversion)">Devenir conseiller iad (recrutement / reconversion)</option>
+                  <option value="Découvrir Propertips (apporteur d'affaires)">Découvrir Propertips (apporteur d'affaires)</option>
+                  <option value="Autre question">Autre question</option>
+                </select>
+              </div>
+              <div>
+                <label for="rec-secteur" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Votre secteur</label>
+                <input type="text" id="rec-secteur" placeholder="Ex. Montpellier, Lattes, Béziers..." class="w-full rounded-xl border border-iad-coldbeige px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="rec-nom" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Prénom et Nom *</label>
+                <input type="text" id="rec-nom" required autocomplete="name" placeholder="Ex. Jean Dupont" class="w-full rounded-xl border border-iad-coldbeige px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30">
+              </div>
+              <div>
+                <label for="rec-tel" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Téléphone *</label>
+                <input type="tel" id="rec-tel" required autocomplete="tel" placeholder="Ex. 06 12 34 56 78" class="w-full rounded-xl border border-iad-coldbeige px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30">
+              </div>
+            </div>
+
+            <div>
+              <label for="rec-email" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Email *</label>
+              <input type="email" id="rec-email" required autocomplete="email" placeholder="nom@exemple.fr" class="w-full rounded-xl border border-iad-coldbeige px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30">
+            </div>
+
+            <div>
+              <label for="rec-message" class="block text-xs font-bold text-black uppercase tracking-wide mb-1.5">Votre message *</label>
+              <textarea id="rec-message" rows="4" required placeholder="Votre parcours, vos questions, vos disponibilités pour un premier échange..." class="w-full rounded-xl border border-iad-coldbeige px-4 py-3 text-sm text-black focus:border-iad-blue focus:outline-none focus:ring-2 focus:ring-iad-blue/30"></textarea>
+            </div>
+
+            <!-- Piège anti-robots (invisible pour les humains) -->
+            <div class="hidden" aria-hidden="true">
+              <label for="rec-honey">Ne pas remplir</label>
+              <input type="text" id="rec-honey" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <input type="checkbox" id="rec-rgpd" required class="mt-1 h-4 w-4 rounded border-iad-coldbeige text-iad-blue focus:ring-iad-blue">
+              <label for="rec-rgpd" class="text-xs text-iad-charcoal leading-relaxed">
+                J’accepte que ces informations soient transmises (via le service FormSubmit) à Laurent Malet et Sarah Bendia-Locatelli afin d’être recontacté. <a href="mentions-legales.html#confidentialite" class="text-iad-900 font-semibold underline">En savoir plus</a>.
+              </label>
+            </div>
+
+            <button type="submit" class="inline-flex items-center gap-2 bg-iad-coral hover:opacity-95 text-black font-bold italic text-sm sm:text-base px-7 py-3.5 rounded-full shadow-sm transition">
+              <span class="material-symbols-outlined text-lg" aria-hidden="true">send</span>
+              <span>Envoyer mon message</span>
+            </button>
+
+            <div id="rec-success" class="hidden rounded-2xl bg-iad-50 border border-iad-blue p-5 text-sm text-black" role="status">
+              <p class="font-bold text-iad-900">Merci&nbsp;! Votre message a bien été envoyé à l’équipe.</p>
+              <p class="mt-1 text-iad-charcoal">Sarah ou Laurent vous recontacte très prochainement.</p>
+            </div>
+            <div id="rec-error" class="hidden rounded-2xl bg-iad-beige border border-iad-coral p-5 text-sm text-black" role="alert">
+              <p class="font-bold">L’envoi automatique n’a pas abouti.</p>
+              <p class="mt-1 text-iad-charcoal">Appelez Sarah au <a href="tel:+33782759016" class="font-bold text-iad-900 underline">07 82 75 90 16</a> ou Laurent au <a href="tel:+33665131037" class="font-bold text-iad-900 underline">06 65 13 10 37</a>, ou écrivez à <a href="mailto:l.malet@iadfrance.fr" class="font-bold text-iad-900 underline">l.malet@iadfrance.fr</a>.</p>
+            </div>
+          </form>
         </div>
 
         <p class="text-xs text-white/80">
@@ -836,5 +907,58 @@
     </div>
   </footer>
 
+  <script>
+    // Boutons qui pré-sélectionnent l'objet du formulaire (ex. Propertips)
+    document.querySelectorAll('a[data-sujet]').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('rec-sujet').value = link.dataset.sujet;
+      });
+    });
+
+    // Envoi direct via FormSubmit (Laurent destinataire, Sarah en copie)
+    const recForm = document.getElementById('recrutement-form');
+    if (recForm) {
+      recForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = recForm.querySelector('button[type="submit"]');
+        const btnHtml = btn.innerHTML;
+        const ok = document.getElementById('rec-success');
+        const ko = document.getElementById('rec-error');
+        const val = id => document.getElementById(id).value.trim();
+        ok.classList.add('hidden'); ko.classList.add('hidden');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">progress_activity</span><span>Envoi en cours...</span>';
+        try {
+          const response = await fetch('https://formsubmit.co/ajax/l.malet@iadfrance.fr', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              _subject: `[iad Gotham Team] ${val('rec-sujet')} — ${val('rec-nom')}`,
+              _template: 'table',
+              _captcha: 'false',
+              _honey: document.getElementById('rec-honey').value,
+              _replyto: val('rec-email'),
+              _cc: 'sarah.bendia@iadfrance.fr',
+              Projet: val('rec-sujet'),
+              Nom: val('rec-nom'),
+              Telephone: val('rec-tel'),
+              Email: val('rec-email'),
+              Secteur: val('rec-secteur') || 'non renseigné',
+              Message: val('rec-message')
+            })
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || String(result.success) === 'false') throw new Error(result.message || 'Envoi refusé');
+          recForm.reset();
+          ok.classList.remove('hidden');
+        } catch (err) {
+          ko.classList.remove('hidden');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = btnHtml;
+        }
+      });
+    }
+  </script>
 </body>
 </html>

@@ -532,8 +532,14 @@
             <div class="flex items-start gap-2.5">
               <input type="checkbox" id="contact-rgpd" required class="mt-1 h-4 w-4 rounded border-iadColdBeige text-iadBlue focus:ring-iadBlue">
               <label for="contact-rgpd" class="text-xs text-iadCharcoal leading-relaxed">
-                J’accepte d’être recontacté par le conseiller indépendant <strong class="lowercase">iad</strong> sélectionné afin de répondre à ma demande. Aucune donnée n’est stockée par ce site (envoi direct via votre messagerie).
+                J’accepte que ces informations soient transmises (via le service FormSubmit) au conseiller indépendant <strong class="lowercase">iad</strong> sélectionné, avec copie à Laurent Malet, afin d’être recontacté. <a href="mentions-legales.html#confidentialite" class="text-iadEditorial font-semibold underline">En savoir plus</a>.
               </label>
+            </div>
+
+            <!-- Piège anti-robots (invisible pour les humains) -->
+            <div class="hidden" aria-hidden="true">
+              <label for="contact-honey">Ne pas remplir</label>
+              <input type="text" id="contact-honey" tabindex="-1" autocomplete="off">
             </div>
 
             <div class="pt-2 flex flex-wrap items-center gap-4">
@@ -549,14 +555,20 @@
               </a>
             </div>
 
-            <!-- Zone de confirmation & secours -->
-            <div id="contact-feedback" class="hidden rounded-2xl bg-iadBeige border border-iadColdBeige p-5 space-y-3 text-xs sm:text-sm text-black">
+            <!-- Confirmation d'envoi -->
+            <div id="contact-success" class="hidden rounded-2xl bg-iadLightBlue border border-iadBlue p-5 space-y-2 text-xs sm:text-sm text-black" role="status">
               <p class="font-bold text-iadEditorial flex items-center gap-2">
                 <span class="material-symbols-outlined text-iadBlue">check_circle</span>
-                <span>Votre message est prêt dans votre application de messagerie.</span>
+                <span>Votre demande a bien été envoyée à <span id="success-name"></span>.</span>
               </p>
+              <p class="text-iadCharcoal">Vous serez recontacté très prochainement par téléphone ou par email.</p>
+            </div>
+
+            <!-- Secours si l'envoi automatique échoue -->
+            <div id="contact-feedback" class="hidden rounded-2xl bg-iadBeige border border-iadCoral p-5 space-y-3 text-xs sm:text-sm text-black" role="alert">
+              <p class="font-bold text-black">L’envoi automatique n’a pas abouti.</p>
               <p class="text-iadCharcoal">
-                Si votre messagerie ne s’est pas ouverte automatiquement (ex. utilisation de Gmail dans le navigateur), copiez votre message ci-dessous en 1&nbsp;clic et envoyez-le à <strong id="feedback-email" class="text-black"></strong> :
+                Copiez votre message en 1&nbsp;clic et envoyez-le à <strong id="feedback-email" class="text-black"></strong>, ou appelez le <a href="tel:+33665131037" class="font-bold text-iadEditorial underline">06 65 13 10 37</a> :
               </p>
               <div class="flex flex-wrap gap-3">
                 <button type="button" id="copy-message-btn"
@@ -567,7 +579,7 @@
                 <a id="retry-mailto-link" href="#"
                    class="inline-flex items-center gap-1.5 bg-iadBlue text-black font-bold italic text-xs px-4 py-2.5 rounded-full transition">
                   <span class="material-symbols-outlined text-base">mail</span>
-                  <span>Réouvrir ma messagerie</span>
+                  <span>Ouvrir ma messagerie</span>
                 </a>
               </div>
             </div>
@@ -629,11 +641,22 @@
     const copyLabel = document.getElementById('copy-btn-label');
     let lastFormattedText = '';
 
+    const successBox = document.getElementById('contact-success');
+    const successName = document.getElementById('success-name');
+    // Adresse activée sur FormSubmit : reçoit toutes les demandes ; le conseiller choisi est mis en copie.
+    const FORM_ENDPOINT = 'https://formsubmit.co/ajax/l.malet@iadfrance.fr';
+    const MAIN_EMAIL = 'l.malet@iadfrance.fr';
+
     if (contactForm) {
-      contactForm.addEventListener('submit', (e) => {
+      contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn.innerHTML;
+        const conseillerSelect = document.getElementById('contact-conseiller');
+        const conseillerNom = conseillerSelect.options[conseillerSelect.selectedIndex].text.split(' — ')[0];
+        const honey = document.getElementById('contact-honey').value;
         const sujet = document.getElementById('contact-sujet').value;
-        const destinataire = document.getElementById('contact-conseiller').value;
+        const destinataire = conseillerSelect.value;
         const nom = document.getElementById('contact-nom').value.trim();
         const tel = document.getElementById('contact-tel').value.trim();
         const email = document.getElementById('contact-email').value.trim();
@@ -652,10 +675,46 @@
         lastFormattedText = `Destinataire : ${destinataire}\nObjet : ${subjectLine}\n\n${bodyText}`;
         const mailtoUrl = `mailto:${destinataire}?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(bodyText)}`;
 
-        feedbackEmail.textContent = destinataire;
-        retryLink.href = mailtoUrl;
-        feedbackBox.classList.remove('hidden');
-        window.location.href = mailtoUrl;
+        successBox.classList.add('hidden');
+        feedbackBox.classList.add('hidden');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">progress_activity</span><span>Envoi en cours...</span>';
+
+        try {
+          const response = await fetch(FORM_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              _subject: subjectLine,
+              _template: 'table',
+              _captcha: 'false',
+              _honey: honey,
+              _replyto: email,
+              ...(destinataire !== MAIN_EMAIL ? { _cc: destinataire } : {}),
+              Conseiller: `${conseillerNom} (${destinataire})`,
+              Objet: sujet,
+              Nom: nom,
+              Telephone: tel,
+              Email: email,
+              Message: message
+            })
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || String(result.success) === 'false') {
+            throw new Error(result.message || 'Envoi refusé');
+          }
+          contactForm.reset();
+          successName.textContent = conseillerNom;
+          successBox.classList.remove('hidden');
+        } catch (err) {
+          // Secours : copie du message ou ouverture de la messagerie, au choix du visiteur
+          feedbackEmail.textContent = destinataire;
+          retryLink.href = mailtoUrl;
+          feedbackBox.classList.remove('hidden');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       });
     }
 
