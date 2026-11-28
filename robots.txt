@@ -16,4 +16,19 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://iad-visite3d-lmalet.github.io/iad-gotham-team-montpellier/sitemap.xml
