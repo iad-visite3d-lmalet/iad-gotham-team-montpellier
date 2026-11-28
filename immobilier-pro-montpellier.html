@@ -676,8 +676,9 @@
             })
           });
 
-          if (!response.ok) {
-            throw new Error('Erreur réseau lors de l’envoi');
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || String(result.success) === 'false') {
+            throw new Error(result.message || 'Envoi refusé');
           }
 
           proForm.reset();
@@ -692,7 +693,7 @@
         } catch (error) {
           proFeedback.className = 'rounded-2xl bg-iadBeige border border-iadCoral p-5 space-y-2 text-xs sm:text-sm text-black';
           proFeedback.innerHTML = `
-            <p class="font-bold text-black">L’envoi automatique a été bloqué par votre navigateur.</p>
+            <p class="font-bold text-black">L’envoi automatique n’a pas pu aboutir.</p>
             <p class="text-iadCharcoal">Appelez directement Laurent Malet au <a href="tel:+33665131037" class="font-bold text-iadEditorial underline">06 65 13 10 37</a>.</p>
           `;
         } finally {
